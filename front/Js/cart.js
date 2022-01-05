@@ -2,14 +2,14 @@ let product = JSON.parse(localStorage.getItem("products"));
 console.table(product);
 
 
-for (productStorage of product) {
+for (productingStorage of product) {
+    let productStorage = productingStorage;
     fetch('http://localhost:3000/api/products/' + productStorage.id)
         .then((res) => res.json())
         .then((product) => {
             let elementPanier = displayPanier(product, productStorage);
             const cartItems = document.getElementById('cart__items');
             cartItems.appendChild(elementPanier);
-            console.log(productStorage);
         })
 };
 
@@ -17,9 +17,9 @@ for (productStorage of product) {
 function displayPanier(product, productStorage) {
     let article = document.createElement('article');
     article.classList.add('cart__item');
-    article.setAttribute('data-id', productStorage.id);
+    article.setAttribute('data-id', product._id);
     article.setAttribute('data-color', productStorage.color);
-    console.log(article);
+
 
     let div = document.createElement('div');
     div.classList.add('cart__item__img');
