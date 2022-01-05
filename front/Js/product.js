@@ -1,20 +1,15 @@
-//**Récupération de l'url**//
-
-function getId() {
+function getid() {
     let str = window.location.href;
     let url = new URL(str);
-    return url.searchParams.get('id');
+    return url.searchParams.get("id");
 }
 
-//** récuperation produit  API**//
 
-fetch('http://localhost:3000/api/products/' + getId())
+fetch('http://localhost:3000/api/products/' + getid())
     .then((res) => res.json())
     .then((data) => {
         displayProduct(data)
     });
-
-//**mise en place de la page**//
 
 function displayProduct(data) {
     const image = document.createElement('img');
@@ -22,8 +17,7 @@ function displayProduct(data) {
     const nomskanap = document.getElementById('title');
     const prix = document.getElementById('price');
     const description = document.getElementById('description');
-    const quantite = document.querySelectorAll('input[name="itemQuantity"]');
-    console.log(quantite);
+    const select = document.getElementById("colors");
 
     itemsimg.appendChild(image);
 
@@ -35,38 +29,35 @@ function displayProduct(data) {
     prix.innerHTML = data.price;
     description.innerHTML = data.description;
     console.log(data);
-    for (let colors of data.colors) {
-        let select = document.createElement('option');
-        document.getElementById('colors').appendChild(select);
-        select.value = colors;
-        select.innerHTML = colors;
+    for (let e = 0; e < data.colors.length; e++) {
+        let newOption = new Option(data.colors[e]);
+        newOption.value = data.colors[e];
+        select.options.add(newOption);
+
     };
 
+    const quantite = document.getElementById('quantity');
     const bouton = document.getElementById('addToCart');
 
-    bouton.addEventListener("click", () => {
+    bouton.addEventListener("click", (event) => {
         setProductPanier();
-
     })
-}
 
-//**Local Storage**//
+}
 
 function setProductPanier() {
     let productStorage = localStorage.getItem("products");
     let panier = [];
-    const id = getId();
+    const id = getid();
     const color = document.getElementById("colors").value;
     let quantite = parseInt(document.getElementById("quantity").value);
-    console.log(quantite);
-    console.log(color);
     if (productStorage) {
         panier = JSON.parse(productStorage);
         let productExiste = false;
 
         for (product of panier) {
             if (product.color == color && product.id == id) {
-                product.quantite == quantite;
+                product.quantite += quantite;
                 productExiste = true;
             }
         }

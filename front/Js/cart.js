@@ -1,4 +1,6 @@
 let product = JSON.parse(localStorage.getItem("products"));
+console.table(product);
+
 
 for (productStorage of product) {
     fetch('http://localhost:3000/api/products/' + productStorage.id)
@@ -7,14 +9,17 @@ for (productStorage of product) {
             let elementPanier = displayPanier(product, productStorage);
             const cartItems = document.getElementById('cart__items');
             cartItems.appendChild(elementPanier);
-        });
-}
+            console.log(productStorage);
+        })
+};
+
 
 function displayPanier(product, productStorage) {
     let article = document.createElement('article');
     article.classList.add('cart__item');
     article.setAttribute('data-id', productStorage.id);
     article.setAttribute('data-color', productStorage.color);
+    console.log(article);
 
     let div = document.createElement('div');
     div.classList.add('cart__item__img');
@@ -46,13 +51,15 @@ function displayPanier(product, productStorage) {
 
     let p3 = document.createElement('p');
     p3.textContent = "Qté :"
+
+
     let input = document.createElement('input');
     input.setAttribute('type', 'number');
     input.classList.add('itemQuantity');
     input.setAttribute('name', 'itemQuantity');
     input.setAttribute('min', '1');
     input.setAttribute('max', '100');
-    input.value = productStorage.quantite;
+    input.setAttribute('value', productStorage.quantite);
 
     let div6 = document.createElement('div');
     div6.classList.add('cart__item__content__settings__delete');
