@@ -91,14 +91,26 @@ function displayPanier(product, productStorage) {
         for (let i = 0; i < buttonSupp.length; i++) {
             buttonSupp[i].addEventListener('click', (e) => {
                 console.log(e);
-                let idDelete = e.target.closest('[data-id]')
-                console.log(idDelete);
-                NewproductStorage = products.filter(
 
-                    productStorage.id !== idDelete.dataset.id
+                let product = JSON.parse(localStorage.getItem('products'));
+
+                let parent = e.target.closest('[data-id]');
+
+                newproduct = product.filter(
+                    (product) =>
+                        product.id !== parent.dataset.id ||
+                        product.color !== parent.dataset.color
                 );
 
-                console.log(NewproductStorage);
+                console.log(newproduct);
+
+
+                parent.remove();
+                alert('Ce produit à bien été supprimé.')
+                location.reload();
+
+
+
             })
         }
     }

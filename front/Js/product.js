@@ -38,13 +38,18 @@ function displayProduct(data) {
 
     const quantite = document.getElementById('quantity');
     const bouton = document.getElementById('addToCart');
-
+    const confirmation = () => {
+        if (window.confirm(`Votre commande est bien ajoutée au panier.`)) {
+            window.location.href = "cart.html";
+        }
+    }
     bouton.addEventListener("click", (event) => {
         setProductPanier();
+        confirmation();
+
     })
 
 }
-
 function setProductPanier() {
     let productStorage = localStorage.getItem("products");
     let panier = [];
