@@ -93,13 +93,15 @@ function displayPanier(product, productStorage) {
                 console.log(e);
 
                 let product = JSON.parse(localStorage.getItem('products'));
+                localStorage.removeItem(productStorage, 'id', 'color')
 
                 let parent = e.target.closest('[data-id]');
 
                 newproduct = product.filter(
                     (product) =>
                         product.id !== parent.dataset.id ||
-                        product.color !== parent.dataset.color
+                        product.color !== parent.dataset.color,
+
                 );
 
                 console.log(newproduct);
@@ -107,7 +109,7 @@ function displayPanier(product, productStorage) {
 
                 parent.remove();
                 alert('Ce produit à bien été supprimé.')
-                location.reload();
+                // location.reload();
 
 
 
