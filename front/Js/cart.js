@@ -2,8 +2,8 @@ let product = JSON.parse(localStorage.getItem("products"));
 console.table(product);
 
 
-for (productingStorage of product) {
-    let productStorage = productingStorage;
+for (productinStorage of product) {
+    let productStorage = productinStorage;
     fetch('http://localhost:3000/api/products/' + productStorage.id)
         .then((res) => res.json())
         .then((product) => {
@@ -83,7 +83,27 @@ function displayPanier(product, productStorage) {
     div5.appendChild(input);
     div4.appendChild(div6);
     div6.appendChild(p4);
+    //**Suppression des articles**/
+    function Suppression() {
+        let buttonSupp = document.querySelectorAll('.deleteItem');
+        console.log(buttonSupp);
 
+        for (let i = 0; i < buttonSupp.length; i++) {
+            buttonSupp[i].addEventListener('click', (e) => {
+                console.log(e);
+                let idDelete = e.target.closest('[data-id]')
+                console.log(idDelete);
+                NewproductStorage = products.filter(
+
+                    productStorage.id !== idDelete.dataset.id
+                );
+
+                console.log(NewproductStorage);
+            })
+        }
+    }
+
+    Suppression();
     return article;
+};
 
-}
