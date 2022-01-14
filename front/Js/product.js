@@ -28,6 +28,8 @@ function displayProduct(data) {
     nomskanap.innerHTML = data.name;
     prix.innerHTML = data.price;
     description.innerHTML = data.description;
+    price = data.price;
+    console.log(data.price);
     console.log(data);
     for (let e = 0; e < data.colors.length; e++) {
         let newOption = new Option(data.colors[e]);
@@ -63,6 +65,7 @@ function setProductPanier() {
         for (product of panier) {
             if (product.color == color && product.id == id) {
                 product.quantite += quantite;
+                
                 productExiste = true;
             }
         }
@@ -72,7 +75,8 @@ function setProductPanier() {
                 {
                     "id": id,
                     "color": color,
-                    "quantite": quantite
+                    "quantite": quantite,
+                    
                 }
             );
 
@@ -82,7 +86,8 @@ function setProductPanier() {
             {
                 "id": id,
                 "color": color,
-                "quantite": quantite
+                "quantite": quantite,
+               
             }
         ]
     }

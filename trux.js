@@ -1,82 +1,90 @@
-let product = JSON.parse(localStorage.getItem("products"));
+function getForm() {
+    // Ajout des Regex
+    let form = document.querySelector(".cart__order__form");
 
-for (productStorage of product) {
-    fetch('http://localhost:3000/api/products/' + productStorage.id)
-        .then((res) => res.json())
-        .then((product) => {
-            let elementPanier = displayPanier(product, productStorage);
-            const cartItems = document.getElementById('cart__items');
-            cartItems.appendChild(elementPanier);
-        });
+    //Création des expressions régulières
+    let emailRegExp = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$');
+    let charRegExp = new RegExp("^[a-zA-Z ,.'-]+$");
+    let addressRegExp = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
+
+    // Ecoute de la modification du prénom
+    form.firstName.addEventListener('change', function () {
+        validFirstName(this);
+    });
+
+    // Ecoute de la modification du prénom
+    form.lastName.addEventListener('change', function () {
+        validLastName(this);
+    });
+
+    // Ecoute de la modification du prénom
+    form.address.addEventListener('change', function () {
+        validAddress(this);
+    });
+
+    // Ecoute de la modification du prénom
+    form.city.addEventListener('change', function () {
+        validCity(this);
+    });
+
+    // Ecoute de la modification du prénom
+    form.email.addEventListener('change', function () {
+        validEmail(this);
+    });
+
+    //validation du prénom
+    const validFirstName = function (inputFirstName) {
+        let firstNameErrorMsg = inputFirstName.nextElementSibling;
+
+        if (charRegExp.test(inputFirstName.value)) {
+            firstNameErrorMsg.innerHTML = '';
+        } else {
+            firstNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+
+    //validation du nom
+    const validLastName = function (inputLastName) {
+        let lastNameErrorMsg = inputLastName.nextElementSibling;
+
+        if (charRegExp.test(inputLastName.value)) {
+            lastNameErrorMsg.innerHTML = '';
+        } else {
+            lastNameErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+
+    //validation de l'adresse
+    const validAddress = function (inputAddress) {
+        let addressErrorMsg = inputAddress.nextElementSibling;
+
+        if (addressRegExp.test(inputAddress.value)) {
+            addressErrorMsg.innerHTML = '';
+        } else {
+            addressErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+
+    //validation de la ville
+    const validCity = function (inputCity) {
+        let cityErrorMsg = inputCity.nextElementSibling;
+
+        if (charRegExp.test(inputCity.value)) {
+            cityErrorMsg.innerHTML = '';
+        } else {
+            cityErrorMsg.innerHTML = 'Veuillez renseigner ce champ.';
+        }
+    };
+
+    //validation de l'email
+    const validEmail = function (inputEmail) {
+        let emailErrorMsg = inputEmail.nextElementSibling;
+
+        if (emailRegExp.test(inputEmail.value)) {
+            emailErrorMsg.innerHTML = '';
+        } else {
+            emailErrorMsg.innerHTML = 'Veuillez renseigner votre email.';
+        }
+    };
 }
-
-function displayPanier(product, productStorage) {
-    let article = document.createElement('article');
-    article.classList.add('cart__item');
-    article.setAttribute('data-id', productStorage.id);
-    article.setAttribute('data-color', productStorage.color);
-
-    let div = document.createElement('div');
-    div.classList.add('cart__item__img');
-
-    let image = document.createElement('img');
-    image.setAttribute('src', product.imageUrl);
-    image.setAttribute('alt', product.altTxt);
-
-    let div2 = document.createElement('div');
-    div2.classList.add('cart__item__content');
-
-    let div3 = document.createElement('div');
-    div3.classList.add('cart__item__content__description');
-
-    let h2 = document.createElement('h2');
-    h2.textContent = product.name;
-
-    let p = document.createElement('p');
-    p.textContent = product.price;
-
-    let p2 = document.createElement('p');
-    p2.textContent = productStorage.color;
-
-    let div4 = document.createElement('div');
-    div4.classList.add('cart__item__content__settings');
-
-    let div5 = document.createElement('div');
-    div5.classList.add('cart__item__content__settings__quantity');
-
-    let p3 = document.createElement('p');
-    p3.textContent = "Qté :"
-    let input = document.createElement('input');
-    input.setAttribute('type', 'number');
-    input.classList.add('itemQuantity');
-    input.setAttribute('name', 'itemQuantity');
-    input.setAttribute('min', '1');
-    input.setAttribute('max', '100');
-    input.value = productStorage.quantite;
-
-    let div6 = document.createElement('div');
-    div6.classList.add('cart__item__content__settings__delete');
-
-    let p4 = document.createElement('p');
-    p4.classList.add('deleteItem');
-    p4.textContent = "Supprimer";
-
-    article.appendChild(div);
-    div.appendChild(image);
-
-    article.appendChild(div2);
-    div2.appendChild(div3);
-    div3.appendChild(h2);
-    div3.appendChild(p);
-    div3.appendChild(p2);
-
-    article.appendChild(div4);
-    div4.appendChild(div5);
-    div5.appendChild(p3);
-    div5.appendChild(input);
-    div4.appendChild(div6);
-    div6.appendChild(p4);
-
-    return article;
-
-}
+getForm();
