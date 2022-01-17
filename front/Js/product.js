@@ -1,11 +1,11 @@
-function getid() {
+function getId() {
     let str = window.location.href;
     let url = new URL(str);
     return url.searchParams.get("id");
 }
+console.log(getId);
 
-
-fetch('http://localhost:3000/api/products/' + getid())
+fetch('http://localhost:3000/api/products/' + getId())
     .then((res) => res.json())
     .then((data) => {
         displayProduct(data)
@@ -55,7 +55,7 @@ function displayProduct(data) {
 function setProductPanier() {
     let productStorage = localStorage.getItem("products");
     let panier = [];
-    const id = getid();
+    const id = getId();
     const color = document.getElementById("colors").value;
     let quantite = parseInt(document.getElementById("quantity").value);
     if (productStorage) {

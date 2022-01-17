@@ -10,90 +10,89 @@ for (productinStorage of product) {
             let elementPanier = displayPanier(product, productStorage);
             const cartItems = document.getElementById('cart__items');
             cartItems.appendChild(elementPanier);
-
-            totalArticle();
+            totalArticle(product, productStorage);
         })
 };
 
 
 function displayPanier(product, productStorage) {
-    let article = document.createElement('article');
-    article.classList.add('cart__item');
-    article.setAttribute('data-id', product._id);
-    article.setAttribute('data-color', productStorage.color);
+
+    let cartItemArticle = document.createElement('article');
+    cartItemArticle.classList.add('cart__item');
+    cartItemArticle.setAttribute('data-id', product._id);
+    cartItemArticle.setAttribute('data-color', productStorage.color);
 
 
-    let div = document.createElement('div');
-    div.classList.add('cart__item__img');
+    let cartItemDiv = document.createElement('div');
+    cartItemDiv.classList.add('cart__item__img');
 
-    let image = document.createElement('img');
-    image.setAttribute('src', product.imageUrl);
-    image.setAttribute('alt', product.altTxt);
+    let cartImg = document.createElement('img');
+    cartImg.setAttribute('src', product.imageUrl);
+    cartImg.setAttribute('alt', product.altTxt);
 
-    let div2 = document.createElement('div');
-    div2.classList.add('cart__item__content');
+    let cartItemContent = document.createElement('div');
+    cartItemContent.classList.add('cart__item__content');
 
-    let div3 = document.createElement('div');
-    div3.classList.add('cart__item__content__description');
+    let cartItemContentDescription = document.createElement('div');
+    cartItemContentDescription.classList.add('cart__item__content__description');
 
-    let h2 = document.createElement('h2');
-    h2.textContent = product.name;
+    let titreProduit = document.createElement('h2');
+    titreProduit.textContent = product.name;
 
-    let p = document.createElement('p');
-    p.textContent = product.price;
-    p.classList.add('price');
+    let couleurKanap = document.createElement('p');
+    couleurKanap.textContent = productStorage.color;
 
-    let p2 = document.createElement('p');
-    p2.textContent = productStorage.color;
+    let priceKanap = document.createElement('p');
+    priceKanap.textContent = product.price + "€";
+  priceKanap.classList.add('price')
 
-    let div4 = document.createElement('div');
-    div4.classList.add('cart__item__content__settings');
+    let cartItemContentSettings = document.createElement('div');
+    cartItemContentSettings.classList.add('cart__item__content__settings')
 
-    let div5 = document.createElement('div');
-    div5.classList.add('cart__item__content__settings__quantity');
+    let cartItemContentSettingsQuantity = document.createElement('div');
+    cartItemContentSettingsQuantity.classList.add('cart__item__content__settings__quantity');
 
-    let p3 = document.createElement('p');
-    p3.textContent = "Qté :"
+    let Qte = document.createElement('p');
+    Qte.textContent = 'Qté :';
 
-
-    let input = document.createElement('input');
-    input.setAttribute('type', 'number');
-    input.classList.add('itemQuantity');
-    input.setAttribute('name', 'itemQuantity');
-    input.setAttribute('min', '1');
-    input.setAttribute('max', '100');
-    input.setAttribute('value', productStorage.quantite);
-    input.addEventListener('change', (event) => {
+    let itemQuantity = document.createElement('input');
+    itemQuantity.setAttribute('type', 'number');
+    itemQuantity.classList.add('itemQuantity');
+    itemQuantity.setAttribute('name', 'itemQuantity');
+    itemQuantity.setAttribute('min', '1');
+    itemQuantity.setAttribute('max', '100');
+    itemQuantity.setAttribute('value', productStorage.quantite);
+    itemQuantity.addEventListener('change', (event) => {
         modification(event);
     })
+    let cartItemContentSettingsDelete = document.createElement('div');
+    cartItemContentSettingsDelete.classList.add('cart__item__content__settings__delete');
 
-    let div6 = document.createElement('div');
-    div6.classList.add('cart__item__content__settings__delete');
-
-    let p4 = document.createElement('p');
-    p4.classList.add('deleteItem');
-    p4.textContent = "Supprimer";
-    p4.addEventListener('click', (event) => {
+  let deleteItem = document.createElement('p');
+    deleteItem.classList.add('deleteItem');
+    deleteItem.textContent = "Supprimer";
+   deleteItem.addEventListener('click', (event) => {
         suppression(event);
     }
     )
-    article.appendChild(div);
-    div.appendChild(image);
 
-    article.appendChild(div2);
-    div2.appendChild(div3);
-    div3.appendChild(h2);
-    div3.appendChild(p);
-    div3.appendChild(p2);
+    cartItemArticle.appendChild(cartItemDiv)
+    cartItemDiv.appendChild(cartImg)
 
-    article.appendChild(div4);
-    div4.appendChild(div5);
-    div5.appendChild(p3);
-    div5.appendChild(input);
-    div4.appendChild(div6);
-    div6.appendChild(p4);
+    cartItemArticle.appendChild(cartItemContent)
+    cartItemContent.appendChild(cartItemContentDescription);
+    cartItemContentDescription.appendChild(titreProduit);
+    cartItemContentDescription.appendChild(couleurKanap);
+    cartItemContentDescription.appendChild(priceKanap);
 
-    return article;
+    cartItemContent.appendChild(cartItemContentSettings);
+    cartItemContentSettings.appendChild(cartItemContentSettingsQuantity);
+    cartItemContentSettingsQuantity.appendChild(Qte);
+    cartItemContentSettingsQuantity.appendChild(itemQuantity);
+    cartItemContentSettings.appendChild(cartItemContentSettingsDelete);
+    cartItemContentSettingsDelete.appendChild(deleteItem)
+
+    return cartItemArticle;
 };
 //**Suppression des articles**/
 function suppression(event) {
@@ -132,7 +131,7 @@ function modification(event) {
     let product = JSON.parse(localStorage.getItem('products'));
 
     let quantitevalue = event.target.valueAsNumber;
-    console.log(quantitevalue);
+
 
     let article = event.target.closest('[data-id]');
 
@@ -147,7 +146,6 @@ function modification(event) {
         return;
     }
 
-    console.log(productIndex);
 
     product[productIndex].quantite = quantitevalue;
 
@@ -158,42 +156,33 @@ function modification(event) {
 
 //** Article Total**/
 
-function totalArticle() {
-    //**Total quantité**/
-    let quantitetotal = document.getElementsByClassName('itemQuantity');
-    totalquantite = 0;
-    for (i = 0; i < quantitetotal.length; ++i) {
-        totalquantite += quantitetotal[i].valueAsNumber;
-    }
-    console.log(totalquantite);
+function totalArticle(product, productStorage) {
 
-    let totalQuantityproduc = document.getElementById('totalQuantity');
-    totalQuantityproduc.innerHTML = totalquantite;
+
+    //**Total quantité**/
+   
+    let totalQuantityProduc = document.getElementById('totalQuantity');
+    totalQuantityProduc.innerHTML = parseInt(totalQuantityProduc.innerHTML) + productStorage.quantite;
+
+    
 
     /**Total Prix**/
-    let product = JSON.parse(localStorage.getItem('products'));
-    console.log(product);
-    let price = document.querySelectorAll('.price');
-    console.log(price);
-    let totalPrix = document.getElementById('totalPrice');
 
-     totauxPrix = 0;
-   console.log(totalPrix);
- for (i = 0; i < quantitetotal.length; ++i) {
-     totauxPrix += (quantitetotal[i].valueAsNumber * price[i].textContent )
-  }
-     console.log(totauxPrix);
-   totalPrix.innerHTML = totauxPrix;
+    let totalPrix = document.getElementById('totalPrice');
+  
+
+   totalPrix.innerHTML = parseInt(totalPrix.innerHTML) + product.price * productStorage.quantite;
 }
+
 
 //**Formulaire**/
 
 function formulaire() {
     let form = document.querySelector('.cart__order__form')
-    const NameRegex = new RegExp("^[a-zA-Z]{3,20}$");
-    const AddressRegex = new RegExp("^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+");
-    const EmailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-
+    const NameRegex = new RegExp("^[a-zA-Z  -]+$");
+    const AddressRegex = new RegExp("^[0-9a-zA-Z -,]+$");
+    const EmailRegex = new RegExp("^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+$")
+    
     form.firstName.addEventListener('change', () => {
         valideFirstNameRegex(this);
     })
@@ -205,6 +194,7 @@ function formulaire() {
     })
     form.city.addEventListener('change', () => {
         valideCityRegex(this);
+        
     })
     form.email.addEventListener('change', () => {
         valideEmailRegex(this);
@@ -249,7 +239,7 @@ function formulaire() {
         }
     }
 
-     const valideCityRegex = function () {
+        const valideCityRegex = function () {
         let cityErrorMsg = document.getElementById('city').nextElementSibling;
 
         if (NameRegex.test(form.city.value)) {
@@ -261,6 +251,7 @@ function formulaire() {
             console.log('not ok');
         }
     }
+
 
          const  valideEmailRegex = function () {
         let emailErrorMsg = document.getElementById('email').nextElementSibling;
@@ -310,10 +301,10 @@ let product = JSON.parse(localStorage.getItem('products'));
     }
 
     localStorage.setItem('contact', JSON.stringify(order));
-    
+
 console.log(product_id);
     console.log(order);
-    
+
     const option = {
         method: 'POST',
         body: JSON.stringify(order),
@@ -329,9 +320,8 @@ console.log(product_id);
         .then((res) => res.json())
         .then((data) => {
             console.log(data),
-            localStorage.setItem('orderId', data.orderId),
                 console.log(data.orderId);
-        
-        document.location.href= "confirmation.html"})
-
+            document.location.href = "confirmation.html?orderId=" + data.orderId
+        });
+    
 })
