@@ -1,16 +1,17 @@
+//Récupération de l'url//
 function getId() {
     let str = window.location.href;
     let url = new URL(str);
     return url.searchParams.get("id");
 }
 console.log(getId);
-
+//Mise en place de l'Api en lien avec l'id du produit sélectionné//
 fetch('http://localhost:3000/api/products/' + getId())
     .then((res) => res.json())
     .then((data) => {
         displayProduct(data)
     });
-
+//Mise en page de la page produit//
 function displayProduct(data) {
     const image = document.createElement('img');
     let itemsimg = document.querySelector('.item__img');
@@ -52,6 +53,7 @@ function displayProduct(data) {
     })
 
 }
+//Mise en service du LocalStorage: Products//
 function setProductPanier() {
     let productStorage = localStorage.getItem("products");
     let panier = [];

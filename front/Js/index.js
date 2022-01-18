@@ -1,4 +1,4 @@
-
+//Mise en place du lien vers l'API//
 fetch('http://localhost:3000/api/products')
   .then((res) => res.json())
   .then((data) => {
@@ -8,7 +8,7 @@ fetch('http://localhost:3000/api/products')
       items.appendChild(elementProduct);
     }
   });
-
+//Création de la page d'accueil, en faisant le lien avec l'API//
 function displayProduct(product) {
   const link = document.createElement('a');
   link.setAttribute('href', './product.html?id=' + product._id);

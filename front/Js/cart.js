@@ -1,7 +1,7 @@
 let product = JSON.parse(localStorage.getItem("products"));
 console.table(product);
 
-
+//Mise en lien de l'API avec le localStorage
 for (productinStorage of product) {
     let productStorage = productinStorage;
     fetch('http://localhost:3000/api/products/' + productStorage.id)
@@ -14,7 +14,7 @@ for (productinStorage of product) {
         })
 };
 
-
+//Mise en forme de la page Panier//
 function displayPanier(product, productStorage) {
 
     let cartItemArticle = document.createElement('article');
@@ -273,7 +273,7 @@ formulaire();
 let boutonformulaire = document.querySelector('#order');
 
 console.log(boutonformulaire);
-
+//Envoie du Formulaire dans le localStorage et création du OrderId//
 boutonformulaire.addEventListener('click', (event) => {
     event.preventDefault();
 let product = JSON.parse(localStorage.getItem('products'));
