@@ -7,11 +7,10 @@ function getOrderId() {
 //Rajout de l'OrderId dans la page Confirmation//
  function confirmation () {
      const numeroCommande = document.getElementById('orderId');
-     let order = JSON.parse(localStorage.getItem("contact"));
     console.log(numeroCommande);
    numeroCommande.innerText = getOrderId();
      window.localStorage.removeItem("contact");
-     window.localStorage.removeItem("products")
+     window.localStorage.removeItem("products");
 }
 
  confirmation();

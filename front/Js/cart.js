@@ -300,9 +300,6 @@ let product = JSON.parse(localStorage.getItem('products'));
             products: product_id,
     }
 
-    localStorage.setItem('contact', JSON.stringify(order));
-
-console.log(product_id);
     console.log(order);
 
     const option = {
